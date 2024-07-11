@@ -2,7 +2,7 @@ import { BsTelephone } from "react-icons/bs";
 import { IoPersonOutline } from "react-icons/io5";
 import css from "./Contact.module.css";
 import { useDispatch } from "react-redux";
-import { deleteTask } from '../../redux/contactsSlice'
+import { deleteContact } from '../../redux/contactsSlice'
 
 
 
@@ -13,13 +13,12 @@ const Contact = ({ data: { id, name, number }, }) => {
     const dispatch = useDispatch();
 const handleDelete = () => {
   
-  const taskExists = Contact.some((contact) => contact.id === id);
-  if (taskExists) {
-    dispatch(deleteTask(id));
-  } else {
-    console.error(`Task with id ${id} not found.`);
+  
+    dispatch(deleteContact(id));
+  
+   
   }
-};
+
   
   return (
     <>

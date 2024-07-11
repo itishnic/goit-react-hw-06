@@ -1,22 +1,40 @@
+import { deleteContact } from "../../redux/contactsSlice";
+import { getContacts, getFilters } from "../../redux/selectors";
 import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
-import { useSelector } from "react-redux";
-import { getTasks, } from "../../redux/selectors";
+import { useDispatch, useSelector } from "react-redux";
 
 
-const ContactList = ({ contacts, onDelete }) => {
-    const tasks = useSelector(getTasks);
+
+
+
+
+
+const ContactList = () => {
+  const contacts = useSelector(getContacts);
+  const filters = useSelector(getFilters);
+  const filtersString = filters.toString();
+
+const getVisibleContacts = contacts.filter((contact) =>
+  contact.name.toLowerCase().includes(filtersString.toLowerCase())
+);
+
+
+  const dispatch = useDispatch();
+  const handleDeleteContact = (contactId) => {
+    dispatch(deleteContact(contactId));
+  };
+
   return (
     <div>
       <ul className={css.list}>
-        {contacts.map((contact) => (
+        {getVisibleContacts.map((contact) => (
           <li key={contact.id}>
             <Contact
               data={contact}
               name={contact.name}
               number={contact.number}
-              onDelete={onDelete}
-              task={task}
+              onDelete={() => handleDeleteContact(contact.id)}
             />
           </li>
         ))}
