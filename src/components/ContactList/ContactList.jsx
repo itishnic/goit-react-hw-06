@@ -12,12 +12,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 const ContactList = () => {
   const contacts = useSelector(getContacts);
-  const filters = useSelector(getFilters);
-  const filtersString = filters.toString();
+  const filters = useSelector(getFilters) || "";
+ 
 
-const getVisibleContacts = contacts.filter((contact) =>
-  contact.name.toLowerCase().includes(filtersString.toLowerCase())
-);
+
+
+const getVisibleContacts = contacts && Array.isArray(contacts)
+    ? contacts.filter(contact =>
+        contact.name.toLowerCase().includes(filters.toLowerCase())
+      )
+    : [];
+
 
 
   const dispatch = useDispatch();
